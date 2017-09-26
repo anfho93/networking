@@ -34,14 +34,7 @@ public class Server{
 		
 		try {
 			socketBienvenida = new ServerSocket(3400);
-			Thread inicio = new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					
-				}
-			});
+		
 			while(true) {
 				
 				Socket cliente = socketBienvenida.accept();
@@ -71,7 +64,7 @@ public class Server{
 
 	public void enviarMensajeATodos(String mensaje) {
 		for (int i = 0; i < manejadorClientes.size(); i++) {
-			if(manejadorClientes.get(i).isAlive()) {
+			if(manejadorClientes.get(i).isAlive() ) {
 				manejadorClientes.get(i).enviarMensaje(mensaje);
 			}					
 		}

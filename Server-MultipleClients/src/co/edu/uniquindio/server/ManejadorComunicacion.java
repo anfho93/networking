@@ -37,13 +37,19 @@ public class ManejadorComunicacion extends Thread{
 				continue;
 			}else{
 				try {
-					
+						
 						String mensaje = entradaDeCliente.readLine();
-						System.out.println("Mensaje del cliente > "+mensaje);
-						miServer.enviarMensajeATodos(mensaje);
+						if(mensaje!=null){
+							System.out.println("Mensaje del cliente > "+mensaje);
+							miServer.enviarMensajeATodos(mensaje);
+						}else {
+							
+						}
+						
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				
 				}
 			}			
 		}		

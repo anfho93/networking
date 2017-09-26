@@ -28,17 +28,21 @@ public class Client {
 			clientSocket = new Socket(SERVER_LOCATION, PORT);
 			salidaDatos = new DataOutputStream(clientSocket.getOutputStream());
 			entradaDatos = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			//String mensajeSalida = JOptionPane.showInputDialog(null, "Ingrese un mensaje!!!!");
-			Thread escuchador = new Thread(new Runnable() {
-				
+
+			Thread escuchador = new Thread(new Runnable() {				
 				@Override
 				public void run() {
 					while(true){
 						try {
-							System.out.println("Mensaje entrante> "+entradaDatos.readLine()+"\n");
+							if(!clientSocket.isClosed() && entradaDatos.ready())
+								System.out.println("Mensaje entrante> "+entradaDatos.readLine()+"\n");
+							
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
+
 							e.printStackTrace();
+							System.out.println("Comunicación finalizada!!!!");
+							break;
+						
 						}
 					}
 						
@@ -48,23 +52,16 @@ public class Client {
 			
 				Scanner lector =  new Scanner(System.in);
 					while(lector.hasNextLine() ){
-						try {							
-							salidaDatos.writeBytes(lector.nextLine()+"\n");							
+						try {
+							if(!clientSocket.isClosed())
+								salidaDatos.writeBytes(lector.nextLine()+"\n");							
 							
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
+						} catch (IOException e) {						
 							e.printStackTrace();
-							break;
-							
+							break;							
 						}
 					}
-					
-				
-		
-		
-
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 
